@@ -1,1 +1,26 @@
-﻿{"status":"initializing","updated_at":""}
+{
+  "updated_at": "2026-05-18T23:27:56.944677",
+  "date": "2026-05-18",
+  "account": {
+    "balance": 4983.99,
+    "equity": 4983.99,
+    "today_pnl": 0.0,
+    "session_status": "Running"
+  },
+  "stats": {
+    "total_trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "winrate": 0.0,
+    "pnl": 0.0,
+    "avg_win": 0,
+    "avg_loss": 0,
+    "open_trades": 0
+  },
+  "market": {
+    "bias": "BEARISH",
+    "spread_status": "Normal (308)",
+    "last_report": "2026-05-18T23:27:56.934275"
+  },
+  "recent_trades": []
+}
