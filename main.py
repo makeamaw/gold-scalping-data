@@ -5,6 +5,8 @@ import time
 import logging
 import signal
 import sys
+import os
+import subprocess
 from datetime import datetime, date
 
 import config
@@ -30,6 +32,43 @@ logging.basicConfig(
 )
 logger = logging.getLogger("main")
 
+# ─── PID Lock ────────────────────────────────────────────────
+PID_FILE = r"C:\Users\nattawadee\GoldScalpingEngine\engine.pid"
+
+
+def _pid_running(pid: int) -> bool:
+    try:
+        result = subprocess.run(
+            ["tasklist", "/FI", f"PID eq {pid}", "/NH"],
+            capture_output=True, text=True
+        )
+        return str(pid) in result.stdout
+    except Exception:
+        return False
+
+
+def acquire_lock() -> bool:
+    if os.path.exists(PID_FILE):
+        try:
+            with open(PID_FILE) as f:
+                old_pid = int(f.read().strip())
+            if _pid_running(old_pid):
+                logger.critical(f"Engine already running (PID {old_pid}). Exiting.")
+                return False
+        except Exception:
+            pass
+    with open(PID_FILE, "w") as f:
+        f.write(str(os.getpid()))
+    return True
+
+
+def release_lock():
+    try:
+        os.remove(PID_FILE)
+    except Exception:
+        pass
+
+
 # ─── Global State ─────────────────────────────────────────────
 risk_mgr = rm_module.RiskManager()
 running   = True
@@ -54,9 +93,8 @@ def check_and_close_positions(positions: list[dict], account: dict):
 
     for ticket in closed:
         trade = active_trades.pop(ticket, {})
-        # ดึงข้อมูลจาก history
         deals = te.get_closed_deals_today(config.SYMBOL)
-        deal  = next((d for d in deals if d["ticket"] == ticket), None)
+        deal  = next((d for d in deals if d["position_id"] == ticket), None)
         profit = deal["profit"] if deal else 0.0
         exit_price = deal["price"] if deal else 0.0
         exit_time  = deal["time"] if deal else datetime.now()
@@ -67,13 +105,18 @@ def check_and_close_positions(positions: list[dict], account: dict):
         logger.info(f"Trade #{ticket} closed | PnL: {profit:+.2f}")
 
 
-def try_open_trade(analysis: dict, tick: dict, account: dict):
+def try_open_trade(analysis: dict, tick: dict, account: dict, actual_open: int):
     """ประเมินสัญญาณและเปิดออเดอร์ถ้าผ่าน"""
     spread_ok = spread_filter.is_spread_ok(tick)
     signal    = se.generate_signal(analysis, spread_ok)
 
     if signal["signal"] == "NONE":
         logger.debug(f"No signal: {signal['reason']}")
+        return
+
+    # ใช้ actual MT5 positions แทน internal counter
+    if actual_open >= config.MAX_OPEN_TRADES:
+        logger.debug(f"Trade blocked: {actual_open}/{config.MAX_OPEN_TRADES} positions open")
         return
 
     can_trade, reason = risk_mgr.can_open_trade(time.time())
@@ -89,18 +132,18 @@ def try_open_trade(analysis: dict, tick: dict, account: dict):
     direction = signal["signal"]
 
     sl, tp = se.calculate_sl_tp(
-        signal   = direction,
+        signal      = direction,
         entry_price = tick["ask"] if direction == "BUY" else tick["bid"],
-        point    = point,
+        point       = point,
     )
 
     trade = te.open_order(
-        symbol    = config.SYMBOL,
-        signal    = direction,
-        lot       = config.INITIAL_LOT,
-        sl        = sl,
-        tp        = tp,
-        comment   = f"GS|{signal['score']}",
+        symbol  = config.SYMBOL,
+        signal  = direction,
+        lot     = config.INITIAL_LOT,
+        sl      = sl,
+        tp      = tp,
+        comment = f"GS|{signal['score']}",
     )
 
     if trade is None:
@@ -150,31 +193,41 @@ def send_periodic_report(account: dict, positions: list, analysis: dict, tick: d
     logger.info(f"Report sent | PnL: {risk_status['today_pnl']:+.2f} | WR: {stats['winrate']}%")
     last_report_time = now
 
-    # push summary ขึ้น GitHub
     export_summary.run_export()
 
 
 def main():
+    if not acquire_lock():
+        sys.exit(1)
+
+    try:
+        _run()
+    finally:
+        release_lock()
+
+
+def _run():
     logger.info("=" * 60)
     logger.info("Adaptive Multi-Timeframe Gold Scalping Engine Starting")
     logger.info("=" * 60)
 
-    # Init DB
     jl.init_db()
 
-    # Connect MT5
     if not mr.connect():
         logger.critical("Cannot connect to MT5 — Exiting")
         sys.exit(1)
 
-    # Init session
     account = mr.get_account_info()
     if account is None:
         logger.critical("Cannot get account info — Exiting")
         mr.disconnect()
         sys.exit(1)
 
-    risk_mgr.reset_session(account["balance"])
+    # ตรวจ PnL วันนี้จาก DB ก่อน reset เพื่อ protect daily limit หลัง restart
+    today_closed_pnl = jl.get_today_stats().get("total_profit", 0.0)
+    adjusted_balance = account["balance"] - today_closed_pnl
+    risk_mgr.reset_session(adjusted_balance)
+
     tg.send_alert(
         f"🚀 Gold Scalping Engine Started\n"
         f"Balance: {account['balance']:.2f} | "
@@ -197,37 +250,30 @@ def main():
                 time.sleep(2)
                 continue
 
-            # อัปเดต risk manager
             can_trade = risk_mgr.update(account["balance"], account["equity"])
 
-            # ตรวจออเดอร์ที่ปิดไปแล้ว
             check_and_close_positions(positions, account)
 
-            # วิเคราะห์ตลาด
             analysis = mtf_analyzer.get_full_analysis(config.SYMBOL)
 
-            # ส่ง report ทุก 15 นาที
             send_periodic_report(account, positions, analysis, tick)
 
-            # ลอง open trade ถ้ายังเทรดได้
             if can_trade:
-                try_open_trade(analysis, tick, account)
+                try_open_trade(analysis, tick, account, len(positions))
             else:
                 if iteration % 60 == 0:
                     logger.info(f"Session locked: {risk_mgr.lock_reason}")
 
-            # AI analytics ทุก 4 ชั่วโมง
             if iteration % (4 * 3600 // 5) == 0:
                 ai_analytics.print_analytics_report(days=7)
 
-            time.sleep(5)   # ตรวจทุก 5 วินาที
+            time.sleep(5)
 
         except Exception as e:
             logger.exception(f"Main loop error: {e}")
             tg.send_alert(f"⚠️ Engine error: {e}")
             time.sleep(30)
 
-    # Shutdown
     logger.info("Engine stopping...")
     tg.send_alert("🛑 Gold Scalping Engine Stopped")
     mr.disconnect()

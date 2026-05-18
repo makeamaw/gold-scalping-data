@@ -42,7 +42,7 @@ def analyze_m15(symbol: str) -> dict:
 
 
 def analyze_m5(symbol: str) -> dict:
-    """M5: RSI momentum, volume spike, pullback — ใช้ 100 bars"""
+    """M5: RSI momentum direction, volume spike, pullback — ใช้ 100 bars"""
     df = get_ohlcv(symbol, "M5", 100)
 
     default = {"rsi": None, "volume_spike": False, "rsi_signal": "NEUTRAL", "pullback": False}
@@ -55,11 +55,15 @@ def analyze_m5(symbol: str) -> dict:
     df["vol_ma"] = df["tick_volume"].rolling(20).mean()
 
     last = df.iloc[-1]
+    prev = df.iloc[-2] if len(df) >= 2 else last
 
     if pd.isna(last["rsi"]):
         return default
 
     rsi = last["rsi"]
+    rsi_prev = prev["rsi"] if not pd.isna(prev["rsi"]) else rsi
+
+    # RSI zone
     if rsi <= config.RSI_OVERSOLD:
         rsi_signal = "OVERSOLD"
     elif rsi >= config.RSI_OVERBOUGHT:
@@ -72,6 +76,7 @@ def analyze_m5(symbol: str) -> dict:
         if not pd.isna(last["vol_ma"]) else False
     )
 
+    # Pullback: 3-bar reversal into trend direction
     prev3 = df.iloc[-4:-1]
     if len(prev3) >= 3:
         prev_close = prev3["close"].values
@@ -84,6 +89,7 @@ def analyze_m5(symbol: str) -> dict:
 
     return {
         "rsi": round(rsi, 1),
+        "rsi_prev": round(rsi_prev, 1),
         "volume_spike": volume_spike,
         "rsi_signal": rsi_signal,
         "pullback": pullback,
@@ -91,13 +97,13 @@ def analyze_m5(symbol: str) -> dict:
 
 
 def analyze_m1(symbol: str) -> dict:
-    """M1: structure break, momentum candle — ใช้ 30 bars"""
-    df = get_ohlcv(symbol, "M1", 30)
+    """M1: structure break (3-bar), momentum candle — ใช้ 20 bars"""
+    df = get_ohlcv(symbol, "M1", 20)
 
     default = {"structure_break": False, "momentum_candle": False, "direction": "NONE",
                "last_close": None, "last_open": None}
 
-    if df.empty or len(df) < 8:
+    if df.empty or len(df) < 5:
         return default
 
     df = df.copy()
@@ -105,7 +111,7 @@ def analyze_m1(symbol: str) -> dict:
     df["range"] = df["high"] - df["low"]
 
     last = df.iloc[-1]
-    prev = df.iloc[-7:-1]
+    prev = df.iloc[-4:-1]   # 3 bars immediately before current
 
     avg_body  = prev["body"].mean()
     avg_range = prev["range"].mean()

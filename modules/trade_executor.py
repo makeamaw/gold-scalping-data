@@ -121,12 +121,13 @@ def get_closed_deals_today(symbol: str) -> list[dict]:
         if d.symbol != symbol or d.entry != mt5.DEAL_ENTRY_OUT:
             continue
         result.append({
-            "ticket":  d.ticket,
-            "type":    "BUY" if d.type == mt5.DEAL_TYPE_BUY else "SELL",
-            "volume":  d.volume,
-            "price":   d.price,
-            "profit":  d.profit,
-            "time":    datetime.fromtimestamp(d.time),
-            "comment": d.comment,
+            "ticket":      d.ticket,
+            "position_id": d.position_id,
+            "type":        "BUY" if d.type == mt5.DEAL_TYPE_BUY else "SELL",
+            "volume":      d.volume,
+            "price":       d.price,
+            "profit":      d.profit,
+            "time":        datetime.fromtimestamp(d.time),
+            "comment":     d.comment,
         })
     return result
