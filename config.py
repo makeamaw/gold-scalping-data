@@ -24,7 +24,7 @@ EQUITY_PROTECT_PEAK_TRIGGER = 350.0
 
 # ─── Lot Management ───────────────────────────────────────────
 INITIAL_LOT = 0.01
-MAX_OPEN_TRADES = 2
+MAX_OPEN_TRADES = 4  # pyramid: เพิ่มได้ระหว่างมีไม้ค้าง
 
 # ─── SL / TP (points) — รัวเร็ว style: SL กว้างพอหายใจ ─────────
 SL_MIN_POINTS = 1000   # 1000pts = $1.00 SL (ห่างพอสำหรับ noise)
