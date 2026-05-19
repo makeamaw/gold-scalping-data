@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gold Scalping Engine</title>
+<style>
+  body { font-family: monospace; background: #111; color: #eee; padding: 20px; max-width: 480px; margin: auto; }
+  h2 { color: #f5a623; margin-bottom: 4px; }
+  .ts { color: #666; font-size: 12px; margin-bottom: 16px; }
+  .card { background: #1e1e1e; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+  .row { display: flex; justify-content: space-between; padding: 3px 0; }
+  .label { color: #888; }
+  .val { font-weight: bold; }
+  .green { color: #4caf50; }
+  .red { color: #f44336; }
+  .yellow { color: #f5a623; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+  .badge-green { background: #1b3a1f; color: #4caf50; }
+  .badge-red { background: #3a1b1b; color: #f44336; }
+  .badge-yellow { background: #3a2d00; color: #f5a623; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td, th { padding: 4px 6px; text-align: left; }
+  th { color: #666; font-weight: normal; }
+  tr:nth-child(even) { background: #252525; }
+</style>
+</head>
+<body>
+<h2>⚡ Gold Scalping Engine</h2>
+<div class="ts" id="ts">Loading...</div>
+
+<div class="card" id="account"></div>
+<div class="card" id="stats"></div>
+<div class="card" id="market"></div>
+<div class="card" id="trades"></div>
+
+<script>
+function fmt(n, dec=2) { return n == null ? '-' : Number(n).toFixed(dec); }
+function pnlClass(v) { return v >= 0 ? 'green' : 'red'; }
+function row(label, val, cls='') {
+  return `<div class="row"><span class="label">${label}</span><span class="val ${cls}">${val}</span></div>`;
+}
+
+async function load() {
+  try {
+    const r = await fetch('summary.json?t=' + Date.now());
+    const d = await r.json();
+    if (d.error) { document.getElementById('ts').textContent = 'Error: ' + d.error; return; }
+
+    const ts = new Date(d.updated_at).toLocaleString('th-TH');
+    document.getElementById('ts').textContent = 'อัปเดต: ' + ts;
+
+    const a = d.account || {};
+    const s = d.stats || {};
+    const m = d.market || {};
+    const pnl = a.today_pnl || 0;
+    const sess = a.session_status || 'Unknown';
+
+    document.getElementById('account').innerHTML =
+      `<div class="row"><span class="val">💰 Account</span>
+        <span class="badge ${sess === 'Running' ? 'badge-green' : 'badge-red'}">${sess}</span></div>` +
+      row('Balance', fmt(a.balance)) +
+      row('Equity', fmt(a.equity)) +
+      row('PnL วันนี้', (pnl >= 0 ? '+' : '') + fmt(pnl), pnlClass(pnl));
+
+    const wr = s.winrate || 0;
+    document.getElementById('stats').innerHTML =
+      `<div class="val" style="margin-bottom:6px">📊 วันนี้</div>` +
+      row('Trades', `${s.total_trades || 0} ไม้ (open: ${s.open_trades || 0})`) +
+      row('Win / Loss', `${s.wins || 0} / ${s.losses || 0}`) +
+      row('Winrate', fmt(wr, 1) + '%', wr >= 40 ? 'green' : wr >= 35 ? 'yellow' : 'red') +
+      row('Avg Win', '+' + fmt(s.avg_win)) +
+      row('Avg Loss', fmt(s.avg_loss));
+
+    const bias = m.bias || 'NEUTRAL';
+    const biasClass = bias === 'BULLISH' ? 'green' : bias === 'BEARISH' ? 'red' : 'yellow';
+    const sp = m.spread_status || 'N/A';
+    const spClass = sp.startsWith('Low') ? 'green' : sp.startsWith('Normal') ? 'yellow' : 'red';
+    document.getElementById('market').innerHTML =
+      `<div class="val" style="margin-bottom:6px">📈 Market</div>` +
+      row('Bias (M15)', `<span class="badge badge-${biasClass === 'green' ? 'green' : biasClass === 'red' ? 'red' : 'yellow'}">${bias}</span>`) +
+      row('Spread', sp, spClass) +
+      row('Last report', m.last_report ? m.last_report.substring(11,16) : '-');
+
+    const recent = (d.recent_trades || []).slice(0, 6);
+    let trows = recent.map(t => {
+      const p = t.profit;
+      const cls = p == null ? '' : p >= 0 ? 'green' : 'red';
+      const res = t.result || '...';
+      const time = t.time ? t.time.substring(11,16) : '-';
+      return `<tr><td>${time}</td><td>${t.dir}</td>
+        <td>${fmt(t.entry,2)}</td>
+        <td class="${cls}">${p == null ? '...' : (p>=0?'+':'') + fmt(p)}</td>
+        <td class="${cls}">${res}</td></tr>`;
+    }).join('');
+
+    document.getElementById('trades').innerHTML =
+      `<div class="val" style="margin-bottom:6px">🕐 Recent Trades</div>
+       <table><tr><th>Time</th><th>Dir</th><th>Entry</th><th>PnL</th><th>Result</th></tr>
+       ${trows || '<tr><td colspan=5 style="color:#666">No trades today</td></tr>'}
+       </table>`;
+  } catch(e) {
+    document.getElementById('ts').textContent = 'Fetch error: ' + e.message;
+  }
+}
+
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
