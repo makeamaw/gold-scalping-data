@@ -1,28 +1,37 @@
 {
-  "updated_at": "2026-05-20T20:57:54.571332",
+  "updated_at": "2026-05-20T21:02:14.482845",
   "date": "2026-05-20",
   "account": {
-    "balance": 4663.12,
-    "equity": 4663.12,
-    "today_pnl": -2035.52,
+    "balance": 4676.16,
+    "equity": 4676.16,
+    "today_pnl": -2022.48,
     "session_status": "Running"
   },
   "stats": {
-    "total_trades": 119,
-    "wins": 61,
+    "total_trades": 120,
+    "wins": 62,
     "losses": 58,
-    "winrate": 51.3,
-    "pnl": -2035.52,
-    "avg_win": 31.89,
+    "winrate": 51.7,
+    "pnl": -2022.48,
+    "avg_win": 31.58,
     "avg_loss": -68.63,
     "open_trades": 0
   },
   "market": {
     "bias": "BEARISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-20T20:57:54.564955"
+    "last_report": "2026-05-20T21:02:14.476497"
   },
   "recent_trades": [
+    {
+      "dir": "SELL",
+      "entry": 4484.553,
+      "exit": 4484.084,
+      "profit": 13.04,
+      "result": "WIN",
+      "time": "2026-05-20T21:00:01.227714",
+      "confidence": 0
+    },
     {
       "dir": "SELL",
       "entry": 4489.208,
@@ -103,15 +112,6 @@
       "result": "WIN",
       "time": "2026-05-20T20:24:46.898732",
       "confidence": 99
-    },
-    {
-      "dir": "SELL",
-      "entry": 4496.35,
-      "exit": 4494.497,
-      "profit": 60.27,
-      "result": "WIN",
-      "time": "2026-05-20T20:22:45.987750",
-      "confidence": 95
     }
   ]
 }
