@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-20T10:46:40.278056",
+  "updated_at": "2026-05-20T11:01:43.617084",
   "date": "2026-05-20",
   "account": {
     "balance": 1033.86,
@@ -20,7 +20,7 @@
   "market": {
     "bias": "BEARISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-20T10:46:40.272338"
+    "last_report": "2026-05-20T11:01:43.610259"
   },
   "recent_trades": [
     {
