@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-05-22T02:41:02.885970",
+  "updated_at": "2026-05-22T02:43:17.281398",
   "date": "2026-05-22",
   "account": {
     "balance": 9743.45,
     "equity": 9743.45,
-    "today_pnl": 5979.02,
+    "today_pnl": 0.0,
     "session_status": "Running"
   },
   "stats": {
@@ -16,12 +16,12 @@
     "pnl": -293.82,
     "avg_win": 14.9,
     "avg_loss": -40.45,
-    "open_trades": 1
+    "open_trades": 0
   },
   "market": {
     "bias": "BULLISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-22T02:41:02.798716"
+    "last_report": "2026-05-22T02:43:17.178477"
   },
   "recent_trades": [
     {
