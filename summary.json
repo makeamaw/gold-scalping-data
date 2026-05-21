@@ -1,29 +1,38 @@
 {
-  "updated_at": "2026-05-21T22:49:17.662061",
+  "updated_at": "2026-05-21T22:54:27.665936",
   "date": "2026-05-21",
   "account": {
-    "balance": 4287.18,
-    "equity": 4266.5,
-    "today_pnl": -10053.14,
+    "balance": 4088.25,
+    "equity": 4088.25,
+    "today_pnl": -10250.11,
     "session_status": "Locked"
   },
   "stats": {
-    "total_trades": 561,
+    "total_trades": 564,
     "wins": 176,
-    "losses": 385,
-    "winrate": 31.4,
-    "winrate_profit": 25.5,
-    "pnl": -10051.18,
+    "losses": 388,
+    "winrate": 31.2,
+    "winrate_profit": 25.2,
+    "pnl": -10289.5,
     "avg_win": 29.79,
-    "avg_loss": -39.73,
-    "open_trades": 2
+    "avg_loss": -40.03,
+    "open_trades": 0
   },
   "market": {
     "bias": "BEARISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-21T22:49:17.650026"
+    "last_report": "2026-05-21T22:54:27.652332"
   },
   "recent_trades": [
+    {
+      "dir": "SELL",
+      "entry": 4510.59,
+      "exit": 4511.79,
+      "profit": -39.39,
+      "result": "LOSS",
+      "time": "2026-05-21T22:52:04.655256",
+      "confidence": 0
+    },
     {
       "dir": "SELL",
       "entry": 4508.422,
@@ -54,9 +63,9 @@
     {
       "dir": "SELL",
       "entry": 4507.998,
-      "exit": null,
-      "profit": null,
-      "result": null,
+      "exit": 4509.198,
+      "profit": -39.39,
+      "result": "LOSS",
       "time": "2026-05-21T22:39:05.504616",
       "confidence": 0
     },
@@ -90,9 +99,9 @@
     {
       "dir": "SELL",
       "entry": 4508.006,
-      "exit": null,
-      "profit": null,
-      "result": null,
+      "exit": 4512.867,
+      "profit": -159.54,
+      "result": "LOSS",
       "time": "2026-05-21T22:34:23.500120",
       "confidence": 0
     },
@@ -103,15 +112,6 @@
       "profit": -39.4,
       "result": "LOSS",
       "time": "2026-05-21T22:31:04.950272",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4503.242,
-      "exit": 4503.737,
-      "profit": -16.41,
-      "result": "LOSS",
-      "time": "2026-05-21T22:30:03.151513",
       "confidence": 0
     }
   ]
