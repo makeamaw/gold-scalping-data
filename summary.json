@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-05-21T08:39:44.696089",
+  "updated_at": "2026-05-21T08:54:46.686821",
   "date": "2026-05-21",
   "account": {
     "balance": 1479.36,
-    "equity": 1636.25,
+    "equity": 1473.79,
     "today_pnl": -2267.54,
     "session_status": "Running"
   },
@@ -21,7 +21,7 @@
   "market": {
     "bias": "BULLISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-21T08:39:44.688978"
+    "last_report": "2026-05-21T08:54:46.679536"
   },
   "recent_trades": [
     {
