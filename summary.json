@@ -1,35 +1,80 @@
 {
-  "updated_at": "2026-05-22T08:59:14.627588",
+  "updated_at": "2026-05-22T09:14:16.065099",
   "date": "2026-05-22",
   "account": {
-    "balance": 8501.94,
-    "equity": 8479.96,
-    "today_pnl": -1241.51,
+    "balance": 8415.47,
+    "equity": 8415.47,
+    "today_pnl": -1327.98,
     "session_status": "Running"
   },
   "stats": {
-    "total_trades": 71,
-    "wins": 17,
-    "losses": 54,
-    "winrate": 23.9,
-    "winrate_profit": 19.6,
-    "pnl": -1420.7,
-    "avg_win": 26.92,
-    "avg_loss": -34.78,
-    "open_trades": 6
+    "total_trades": 77,
+    "wins": 19,
+    "losses": 58,
+    "winrate": 24.7,
+    "winrate_profit": 20.2,
+    "pnl": -1507.17,
+    "avg_win": 26.82,
+    "avg_loss": -34.77,
+    "open_trades": 5
   },
   "market": {
     "bias": "BULLISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-22T08:59:14.541723"
+    "last_report": "2026-05-22T09:14:15.976890"
   },
   "recent_trades": [
     {
       "dir": "SELL",
+      "entry": 4526.909,
+      "exit": 4528.109,
+      "profit": -39.38,
+      "result": "LOSS",
+      "time": "2026-05-22T09:12:00.389067",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
+      "entry": 4525.409,
+      "exit": 4526.741,
+      "profit": -45.61,
+      "result": "LOSS",
+      "time": "2026-05-22T09:10:04.806273",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
+      "entry": 4526.596,
+      "exit": 4525.706,
+      "profit": 27.0,
+      "result": "WIN",
+      "time": "2026-05-22T09:05:03.160986",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
+      "entry": 4527.268,
+      "exit": 4528.468,
+      "profit": -39.4,
+      "result": "LOSS",
+      "time": "2026-05-22T09:03:02.488896",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
+      "entry": 4526.129,
+      "exit": 4525.356,
+      "profit": 25.03,
+      "result": "WIN",
+      "time": "2026-05-22T09:00:01.233334",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
       "entry": 4525.517,
-      "exit": null,
-      "profit": null,
-      "result": null,
+      "exit": 4525.947,
+      "profit": -14.11,
+      "result": "LOSS",
       "time": "2026-05-22T08:59:04.295957",
       "confidence": 0
     },
@@ -67,51 +112,6 @@
       "profit": -39.36,
       "result": "LOSS",
       "time": "2026-05-22T08:48:00.604028",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4526.621,
-      "exit": 4527.821,
-      "profit": -41.34,
-      "result": "LOSS",
-      "time": "2026-05-22T08:46:04.794835",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4524.788,
-      "exit": 4526.607,
-      "profit": -39.04,
-      "result": "LOSS",
-      "time": "2026-05-22T08:45:04.261017",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4525.443,
-      "exit": 4526.643,
-      "profit": -39.37,
-      "result": "LOSS",
-      "time": "2026-05-22T08:44:03.226134",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4526.118,
-      "exit": null,
-      "profit": null,
-      "result": null,
-      "time": "2026-05-22T08:43:02.806996",
-      "confidence": 0
-    },
-    {
-      "dir": "SELL",
-      "entry": 4521.637,
-      "exit": 4522.837,
-      "profit": -39.38,
-      "result": "LOSS",
-      "time": "2026-05-22T08:41:01.762932",
       "confidence": 0
     }
   ]
