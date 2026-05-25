@@ -1,9 +1,9 @@
 {
-  "updated_at": "2026-05-26T00:35:41.426409",
+  "updated_at": "2026-05-26T00:36:53.840930",
   "date": "2026-05-26",
   "account": {
     "balance": 4953.04,
-    "equity": 4953.04,
+    "equity": 4935.43,
     "today_pnl": 0.0,
     "session_status": "Running"
   },
@@ -16,14 +16,23 @@
     "pnl": 0.0,
     "avg_win": 0,
     "avg_loss": 0,
-    "open_trades": 3
+    "open_trades": 4
   },
   "market": {
     "bias": "BULLISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-26T00:35:41.165671"
+    "last_report": "2026-05-26T00:36:53.660195"
   },
   "recent_trades": [
+    {
+      "dir": "SELL",
+      "entry": 4569.4,
+      "exit": null,
+      "profit": null,
+      "result": null,
+      "time": "2026-05-26T00:35:48.841761",
+      "confidence": 0
+    },
     {
       "dir": "BUY",
       "entry": 4573.911,
