@@ -1,35 +1,53 @@
 {
-  "updated_at": "2026-05-25T20:25:09.495297",
+  "updated_at": "2026-05-25T20:40:10.390145",
   "date": "2026-05-25",
   "account": {
-    "balance": 5407.96,
-    "equity": 5397.52,
-    "today_pnl": -1436.05,
+    "balance": 5473.91,
+    "equity": 5347.01,
+    "today_pnl": -1370.1,
     "session_status": "Running"
   },
   "stats": {
-    "total_trades": 65,
-    "wins": 29,
+    "total_trades": 67,
+    "wins": 31,
     "losses": 36,
-    "winrate": 44.6,
-    "winrate_profit": 31.8,
-    "pnl": -1436.05,
-    "avg_win": 43.44,
+    "winrate": 46.3,
+    "winrate_profit": 33.0,
+    "pnl": -1370.1,
+    "avg_win": 42.76,
     "avg_loss": -74.88,
     "open_trades": 2
   },
   "market": {
     "bias": "BULLISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-25T20:25:09.321286"
+    "last_report": "2026-05-25T20:40:10.229601"
   },
   "recent_trades": [
     {
       "dir": "SELL",
-      "entry": 4563.287,
+      "entry": 4561.576,
       "exit": null,
       "profit": null,
       "result": null,
+      "time": "2026-05-25T20:30:03.726183",
+      "confidence": 0
+    },
+    {
+      "dir": "BUY",
+      "entry": 4562.424,
+      "exit": 4562.96,
+      "profit": 17.46,
+      "result": "WIN",
+      "time": "2026-05-25T20:27:06.795497",
+      "confidence": 0
+    },
+    {
+      "dir": "SELL",
+      "entry": 4563.287,
+      "exit": 4561.8820000000005,
+      "profit": 48.49,
+      "result": "WIN",
       "time": "2026-05-25T20:22:05.739347",
       "confidence": 0
     },
@@ -94,24 +112,6 @@
       "profit": -36.21,
       "result": "LOSS",
       "time": "2026-05-25T20:09:00.634056",
-      "confidence": 0
-    },
-    {
-      "dir": "BUY",
-      "entry": 4571.419,
-      "exit": 4570.234,
-      "profit": -36.2,
-      "result": "LOSS",
-      "time": "2026-05-25T20:08:04.850794",
-      "confidence": 0
-    },
-    {
-      "dir": "BUY",
-      "entry": 4567.855,
-      "exit": 4566.895,
-      "profit": -31.31,
-      "result": "LOSS",
-      "time": "2026-05-25T20:07:02.095693",
       "confidence": 0
     }
   ]
