@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-05-29T00:38:10.301919",
+  "updated_at": "2026-05-29T00:53:11.111833",
   "date": "2026-05-29",
   "account": {
-    "balance": 4625.44,
-    "equity": 4575.72,
-    "today_pnl": -119.87,
+    "balance": 4527.33,
+    "equity": 4487.77,
+    "today_pnl": -217.98,
     "session_status": "Running"
   },
   "stats": {
@@ -21,7 +21,7 @@
   "market": {
     "bias": "BEARISH",
     "spread_status": "Normal (308)",
-    "last_report": "2026-05-29T00:38:10.034393"
+    "last_report": "2026-05-29T00:53:10.843684"
   },
   "recent_trades": []
 }
